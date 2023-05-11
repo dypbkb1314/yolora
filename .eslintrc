@@ -1,0 +1,56 @@
+{
+  "extends": ["next", "next/core-web-vitals", "plugin:prettier/recommended"],
+  "plugins": ["sort-destructure-keys", "simple-import-sort"],
+  "rules": {
+    "react/jsx-sort-props": ["error", {
+      "callbacksLast": true,
+      "shorthandFirst": true,
+      "shorthandLast": false,
+      "ignoreCase": true,
+      "noSortAlphabetically": false,
+      "reservedFirst": true
+    }],
+    "sort-destructure-keys/sort-destructure-keys": ["error", {"caseSensitive": false}],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              [
+                "^react",
+                "^antd",
+                "^(antd-mobile)",
+                "^(@ant-design)(/.*|$)",
+                "^classnames",
+                "^(next)(/?.*|$)",
+                "^@?\\w"
+              ],
+              [
+                "^(@/libs)(/.*|$)",
+                "^(@/components)(/.*|$)",
+                "^(@/services)(/.*|$)"
+              ],
+              // Relative imports. Status by imported file's distance.
+              // Parent imports first, then child imports, then siblings.
+              [
+                "^\\.\\.(?!/?$)",
+                "^\\.\\./?$",
+                "^\\./(?=.*/)(?!/?$)",
+                "^\\.(?!/?$)",
+                "^\\./?$"
+              ],
+              // Side effect imports.
+              ["^\\u0000"]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
