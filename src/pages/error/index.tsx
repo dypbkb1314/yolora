@@ -25,7 +25,7 @@ const Error = () => {
           </span>
           <span style={{ display: 'block' }}>{`}`}</span>
           <span style={{ color: '#777', fontStyle: 'italic' }}>
-            // <Link to='/'>Go home!</Link>
+            {`//`} <Link to='/'>Go home!</Link>
           </span>
         </span>
       </div>
