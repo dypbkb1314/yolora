@@ -1,21 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  // createBrowserRouter,
+  RouterProvider,
+  createHashRouter,
+} from 'react-router-dom';
 
 import './index.css';
 import routes from './routes';
 import reportWebVitals from './reportWebVitals';
 
-const router = createBrowserRouter(routes);
+const router = createHashRouter(routes);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-      <React.Suspense fallback={<>loading...</>}>
-          <RouterProvider router={router} />
-      </React.Suspense>
+    <React.Suspense fallback={<>loading...</>}>
+      <RouterProvider router={router} />
+    </React.Suspense>
   </React.StrictMode>,
 );
 
