@@ -1,112 +1,33 @@
+import { Link } from 'react-router-dom';
 import './index.less';
 
 const Error = () => {
   return (
-    <div className='bg-purple'>
-      <div className='stars'>
-        <div className='custom-navbar'>
-          <div className='brand-logo'>
-            <img
-              src='http://salehriaz.com/404Page/img/logo.svg'
-              width='80px'
-              alt=''
-            />
-          </div>
-          <div className='navbar-links'>
-            <ul>
-              <li>
-                <a
-                  href='http://salehriaz.com/404Page/404.html'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href='http://salehriaz.com/404Page/404.html'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href='http://salehriaz.com/404Page/404.html'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  Features
-                </a>
-              </li>
-              <li>
-                <a
-                  href='http://salehriaz.com/404Page/404.html'
-                  className='btn-request'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  Request A Demo
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className='central-body'>
-          <img
-            className='image-404'
-            src='http://salehriaz.com/404Page/img/404.svg'
-            width='300px'
-            alt=''
-          />
-          <a
-            href='http://salehriaz.com/404Page/404.html'
-            className='btn-go-home'
-            target='_blank'
-            rel='noreferrer'
-          >
-            GO BACK HOME
-          </a>
-        </div>
-        <div className='objects'>
-          <img
-            className='object_rocket'
-            src='http://salehriaz.com/404Page/img/rocket.svg'
-            width='40px'
-            alt=''
-          />
-          <div className='earth-moon'>
-            <img
-              className='object_earth'
-              src='http://salehriaz.com/404Page/img/earth.svg'
-              width='100px'
-              alt=''
-            />
-            <img
-              className='object_moon'
-              src='http://salehriaz.com/404Page/img/moon.svg'
-              width='80px'
-              alt=''
-            />
-          </div>
-          <div className='box_astronaut'>
-            <img
-              className='object_astronaut'
-              src='http://salehriaz.com/404Page/img/astronaut.svg'
-              width='140px'
-              alt=''
-            />
-          </div>
-        </div>
-        <div className='glowing_stars'>
-          <div className='star'></div>
-          <div className='star'></div>
-          <div className='star'></div>
-          <div className='star'></div>
-          <div className='star'></div>
-        </div>
+    <div className='errorBox'>
+      <div className='code-area'>
+        <span style={{ color: '#777', fontStyle: 'italic' }}>
+          {`// 404 page not found.`}
+        </span>
+        <span>
+          <span style={{ color: '#d65562' }}>if</span>
+          {`(`}
+          <span style={{ color: '#4ca8ef' }}>!</span>
+          <span style={{ fontStyle: 'italic', color: '#bdbdbd;' }}>found</span>
+          {`)`}
+          {`{`}
+        </span>
+        <span>
+          <span style={{ paddingLeft: '15px', color: '#2796ec' }}>
+            <i style={{ width: '10px', display: 'inline-block' }}></i>throw
+          </span>
+          <span>
+            (<span style={{ color: '#a6a61f' }}>"(╯°□°)╯︵ ┻━┻"</span>);
+          </span>
+          <span style={{ display: 'block' }}>{`}`}</span>
+          <span style={{ color: '#777', fontStyle: 'italic' }}>
+            // <Link to='/'>Go home!</Link>
+          </span>
+        </span>
       </div>
     </div>
   );

@@ -1,0 +1,26 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 30px;
+  h3 {
+    margin: 0;
+    color: #000;
+  }
+  .nav {
+    a {
+      font-size: 16px;
+      color: #000;
+      text-decoration: none;
+    }
+    & > a:first-child {
+      margin-right: 15px;
+    }
+    a:hover {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
