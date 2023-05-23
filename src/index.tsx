@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom/client';
 import {
   // createBrowserRouter,
   RouterProvider,
-  createHashRouter,
+  createBrowserRouter,
 } from 'react-router-dom';
+
+import AuthProvider from './AuthProvider';
 
 import './index.css';
 import routes from './routes';
 import reportWebVitals from './reportWebVitals';
 
-const router = createHashRouter(routes);
+const router = createBrowserRouter(routes);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -18,7 +20,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <React.Suspense fallback={<>loading...</>}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </React.Suspense>
   </React.StrictMode>,
 );

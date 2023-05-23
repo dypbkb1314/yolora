@@ -1,21 +1,50 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useNavigate, useLocation, Location } from 'react-router-dom';
+import { AuthContext, AuthContextType } from '../../AuthProvider';
 
 import './index.less';
+
+interface State extends Omit<Location, 'state'> {
+  state: {
+    from: {
+      pathname: string;
+    };
+  };
+}
+
+const useAuth = () => useContext(AuthContext);
 
 const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  let auth = useAuth();
+  let { signIn } = auth as AuthContextType;
+  const { state } = useLocation() as State;
+  let from = state.from.pathname || '/';
 
-  const login = () => {
+  const login = async () => {
     if (name && password) {
       const user = {
-        name,
+        username: name,
         password,
       };
-      sessionStorage.setItem('user', JSON.stringify(user));
-      navigate('/');
+      try {
+        const res: any = await fetch('http://127.0.0.1:3001/api/insert', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+          body: JSON.stringify(user),
+        });
+        if (res.status === 200) {
+          // navigate('/');
+          signIn(name, () => navigate(from, { replace: true }));
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
