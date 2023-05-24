@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.less';
 const HeaderNav = () => {
+  const navigate = useNavigate();
   const navList = [
     {
       name: 'About',
@@ -13,7 +14,7 @@ const HeaderNav = () => {
   ];
   return (
     <nav>
-      <h3>Yolora</h3>
+      <h3 onClick={() => navigate('/')}>Yolora</h3>
       <div className='nav'>
         {navList.map((item) => {
           return <Link to={item.path}>{item.name}</Link>;
