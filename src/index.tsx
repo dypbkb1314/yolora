@@ -6,10 +6,16 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import AuthProvider from './AuthProvider';
+import { Provider as MobxProvider } from 'mobx-react';
+// import { RootStore } from './store';
 
 import './index.css';
 import routes from './routes';
 import reportWebVitals from './reportWebVitals';
+
+import RootStore from './mobx/index';
+import UserStore from './mobx/user';
+
 
 const router = createBrowserRouter(routes);
 
@@ -18,11 +24,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <React.Suspense fallback={<>loading...</>}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </React.Suspense>
+    <MobxProvider RootStore={RootStore} UserStore={UserStore}>
+      <React.Suspense fallback={<>loading...</>}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </React.Suspense>
+    </MobxProvider>
   </React.StrictMode>,
 );
 
