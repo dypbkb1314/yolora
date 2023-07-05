@@ -8,33 +8,19 @@ export interface AuthContextType {
 
 export let AuthContext = createContext<AuthContextType | null>(null);
 
-const fakeAuthProvider = {
-  isAuthenticated: false,
-  signIn(callback: VoidFunction) {
-    this.isAuthenticated = true;
-    setTimeout(callback, 300);
-  },
-  signOut(callback: VoidFunction) {
-    this.isAuthenticated = false;
-    setTimeout(callback, 300);
-  },
-};
-
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>(localStorage.getItem('user') || null);
 
   let signIn = (newUser: string, callback: VoidFunction) => {
-    return fakeAuthProvider.signIn(() => {
-      setUser(newUser);
-      callback();
-    });
+    setUser(newUser);
+    callback();
   };
 
   let signOut = (callback: VoidFunction) => {
-    return fakeAuthProvider.signOut(() => {
-      setUser(null);
-      callback();
-    });
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setUser(null);
+    callback();
   };
 
   return (

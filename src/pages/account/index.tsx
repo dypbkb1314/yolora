@@ -13,8 +13,21 @@ const Account = () => {
   const auth = useAuth();
   const { signOut, user } = auth as AuthContextType;
   const getUser = async () => {
-    const res = await axios.get('/api/user');
-    console.log(res);
+    const token = localStorage.getItem('token');
+    const res: any = await axios.get('/api/user', {
+      headers: {
+        Authorization: token,
+      },
+    });
+    if (res.data.code === 123) {
+      const refresh = await axios.get('/api/refreshToken');
+      localStorage.setItem('token', refresh.data.token);
+      const newres: any = await axios.get('/api/user', {
+        headers: {
+          Authorization: refresh.data.token,
+        },
+      });
+    }
   };
   const loginout = () => {
     signOut(() => navigate('/'));

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation, Location } from 'react-router-dom';
 import axios from 'axios';
 import { message } from 'antd';
 
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 
-import './index.less';
+import './index.scss';
 
 interface State extends Omit<Location, 'state'> {
   state: {
@@ -18,17 +18,23 @@ interface State extends Omit<Location, 'state'> {
 const useAuth = () => useContext(AuthContext);
 
 const Login = () => {
+  const [isSign, setSign] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
   let auth = useAuth();
-  let { signIn } = auth as AuthContextType;
+  let { signIn, user } = auth as AuthContextType;
   const { state } = useLocation() as State;
   let from = state?.from?.pathname || '/';
 
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, []);
+
   const login = async () => {
-    message.success('success');
     if (name && password) {
       const user = {
         username: name,
@@ -39,7 +45,9 @@ const Login = () => {
           const res = (await axios.post('/api/login', user)) || {};
           const { data } = res;
           if (data && data.status === 200) {
-            // signIn(name, () => navigate(from, { replace: true }));
+            localStorage.setItem('user', name);
+            localStorage.setItem('token', data.token);
+            signIn(name, () => navigate(from, { replace: true }));
           }
         } catch (e) {
           console.log(e);
@@ -60,6 +68,7 @@ const Login = () => {
         const res = (await axios.post('/api/register', user)) || {};
         const { data } = res;
         if (data && data.status === 200) {
+          localStorage.setItem('user', name);
           signIn(name, () => navigate(from, { replace: true }));
         }
       } catch (e) {
@@ -69,33 +78,65 @@ const Login = () => {
   };
 
   return (
-    <div className='loginBox'>
-      <div className='main'>
-        <p className='sign'>Sign in</p>
-        <div className='form1'>
+    <div className={`cont ${isSign}`}>
+      <div className='form sign-in'>
+        <h2>Welcome back,</h2>
+        <label>
+          <span>Name</span>
+          <input type='text' onChange={(e) => setName(e.target.value)} />
+        </label>
+        <label>
+          <span>Password</span>
           <input
-            className='un '
-            type='text'
-            placeholder='Username'
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            className='pass'
             type='password'
-            placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className='newBox'>
-            <span className='submit' onClick={login}>
-              Login in
-            </span>
-            <span className='register' onClick={register}>
-              Sign up
-            </span>
-            <p className='forgot'>
-              <span>Forgot Password?</span>
+        </label>
+        <p className='forgot-pass'>Forgot password?</p>
+        <button type='button' className='submit' onClick={login}>
+          Sign In
+        </button>
+      </div>
+      <div className='sub-cont'>
+        <div className='img'>
+          <div className='img__text m--up'>
+            <h2>New here?</h2>
+            <p>Sign up and discover great amount of new opportunities!</p>
+          </div>
+          <div className='img__text m--in'>
+            <h2>One of us?</h2>
+            <p>
+              If you already has an account, just sign in. We've missed you!
             </p>
           </div>
+          <div
+            className='img__btn'
+            onClick={() => setSign(isSign ? '' : 's--signup')}
+          >
+            <span className='m--up'>Sign Up</span>
+            <span className='m--in'>Sign In</span>
+          </div>
+        </div>
+        <div className='form sign-up'>
+          <h2>Time to feel like home,</h2>
+          <label>
+            <span>Name</span>
+            <input type='text' onChange={(e) => setName(e.target.value)} />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type='email' />
+          </label>
+          <label>
+            <span>Password</span>
+            <input
+              type='password'
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <button type='button' className='submit' onClick={register}>
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
