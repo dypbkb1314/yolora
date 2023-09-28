@@ -11,6 +11,10 @@ const HeaderNav = () => {
       name: 'Account',
       path: '/account',
     },
+    {
+      name: 'Vr',
+      path: '/three',
+    },
   ];
   return (
     <nav>

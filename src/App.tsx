@@ -3,7 +3,7 @@ import './App.css';
 function App() {
   return (
     <div className='App'>
-      <span>hello jenkins</span>
+      <span>{process.env.NAME}</span>
       <span>add eslint/prettier</span>
     </div>
   );

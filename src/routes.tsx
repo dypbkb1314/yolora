@@ -7,6 +7,7 @@ const About = lazy(() => import('./pages/about'));
 const Account = lazy(() => import('./pages/account'));
 const Error = lazy(() => import('./pages/error'));
 const Login = lazy(() => import('./pages/login'));
+const Three = lazy(() => import('./pages/three'));
 
 const routes = [
   {
@@ -24,6 +25,10 @@ const routes = [
   {
     path: '/about',
     element: <About />,
+  },
+  {
+    path: '/three',
+    element: <Three />,
   },
   {
     path: '/account',
