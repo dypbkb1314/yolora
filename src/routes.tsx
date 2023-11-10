@@ -8,6 +8,7 @@ const Account = lazy(() => import('./pages/account'));
 const Error = lazy(() => import('./pages/error'));
 const Login = lazy(() => import('./pages/login'));
 const Three = lazy(() => import('./pages/three'));
+const List = lazy(() => import('./pages/list'));
 
 const routes = [
   {
@@ -29,6 +30,10 @@ const routes = [
   {
     path: '/three',
     element: <Three />,
+  },
+  {
+    path: '/list',
+    element: <List />,
   },
   {
     path: '/account',
