@@ -94,21 +94,85 @@ const material = new THREE.MeshPhongMaterial({
   color: 0x00ff00,
   transparent: true,
   opacity: 0.6,
+  // wireframe: true,
 }); // 创建几何体材质
+
+geometry.translate(30,30,30)
+
+// setTimeout(() => {
+//     geometry.center(); // 居中，坐标原点
+// }, 3000)
+
+const vectories = new THREE.Vector3(1, 1,1)
+vectories.normalize();
+
+// 定点数据
+const bufferGeometry = new THREE.BufferGeometry(); // 缓冲类型几何体
+
+const pointArr = new Float32Array([ // 定义几何体的顶点坐标
+    0, 0 , -50,
+    50, 0, -50,
+    50,50, -50,
+    0, 50, -50,
+])
+
+const normals = new Float32Array([
+    0, 0, 3,
+    0, 0, 3,
+    0, 0, 3,
+    0, 0, 3,
+])
+
+const attribute = new THREE.BufferAttribute(pointArr, 3); // 生成顶点坐标的attribute属性
+
+const indexes = new Uint16Array([
+    0, 1, 2, 0, 2, 3,
+]);
+
+bufferGeometry.index = new THREE.BufferAttribute(indexes, 1);
+
+bufferGeometry.attributes.position = attribute; // 赋值给缓冲几何体的position属性
+bufferGeometry.attributes.normal = new THREE.BufferAttribute(normals, 3);
+
+// const pointMaterial = new THREE.PointsMaterial({ // 定义顶点材质
+//     color: 'aqua',
+//     size: 2,
+// })
+//
+// const points = new THREE.Points(bufferGeometry, pointMaterial); // 生成顶点
+//
+// scene.add(points);
+
+// 线模型对象
+
+const pointMaterials = new THREE.MeshLambertMaterial({
+    color: 'aqua',
+    side: THREE.DoubleSide,
+})
+
+// const line = new THREE.Line(bufferGeometry, lineMaterial); // 顺序链接上面的缓冲几何体， 可能存在不闭合
+// const line = new THREE.LineLoop(bufferGeometry, lineMaterial); // 连接并且闭合线条
+// const line = new THREE.LineSegments(bufferGeometry, lineMaterial); // 非连续线条
+
+const pointMesh = new THREE.Mesh(bufferGeometry, pointMaterials)
+
+scene.add(pointMesh);
 
 let mesh;
 
-for (let i = 0; i < 10; i++) {
-  for (let j = 0; j < 10; j++) {
-    mesh = new THREE.Mesh(geometry, material); // 创建网格对象模型
-    mesh.position.set(i * 30, 0, j * 30); // 设置模型在场景中的位置
-    scene.add(mesh);
-  }
-}
+// for (let i = 0; i < 10; i++) {
+//   for (let j = 0; j < 10; j++) {
+//     mesh = new THREE.Mesh(geometry, material); // 创建网格对象模型
+//     mesh.position.set(i * 30, 0, j * 30); // 设置模型在场景中的位置
+//     scene.add(mesh);
+//   }
+// }
 
-// mesh = new THREE.Mesh(geometry, material); // 创建网格对象模型
-// mesh.position.set(0, 0, 0); // 设置模型在场景中的位置
-// scene.add(mesh);
+mesh = new THREE.Mesh(geometry, material); // 创建网格对象模型
+mesh.position.set(0, 0, 0); // 设置模型在场景中的位置
+scene.add(mesh);
+
+mesh.translateOnAxis(vectories, 30)
 
 scene.add(axesHelper);
 const camera = new THREE.PerspectiveCamera(120, 1, 1, 1000); // 创建透视投影相机
