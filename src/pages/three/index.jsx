@@ -89,12 +89,13 @@ const gui = new GUI();
 const axesHelper = new THREE.AxesHelper(200); // 坐标轴
 const scene = new THREE.Scene(); // 创建场景
 // const geometry = new THREE.BoxGeometry(10, 10, 10); // 创建几何体形状
-const geometry = new THREE.SphereGeometry(10); // 创建几何体形状
-const material = new THREE.MeshPhongMaterial({
+const geometry = new THREE.SphereGeometry(10, 16, 16); // 创建几何体形状
+const material = new THREE.MeshLambertMaterial({
   color: 0x00ff00,
   transparent: true,
   opacity: 0.6,
-  // wireframe: true,
+  wireframe: true,
+  side: THREE.DoubleSide,
 }); // 创建几何体材质
 
 geometry.translate(30,30,30)
@@ -110,13 +111,22 @@ vectories.normalize();
 const bufferGeometry = new THREE.BufferGeometry(); // 缓冲类型几何体
 
 const pointArr = new Float32Array([ // 定义几何体的顶点坐标
-    0, 0 , -50,
-    50, 0, -50,
-    50,50, -50,
-    0, 50, -50,
+    0, 0 , -50, // 0
+    50, 0, -50, // 1
+    50,50, -50, // 2
+    0, 50, -50, // 3
+
+    0, 0, 0, // 4
+    50, 0, 0, // 5
+    50, 50, 0, // 6
+    0, 50, 0, // 7
 ])
 
 const normals = new Float32Array([
+    0, 0, -3,
+    0, 0, -3,
+    0, 0, -3,
+    0, 0, -3,
     0, 0, 3,
     0, 0, 3,
     0, 0, 3,
@@ -126,7 +136,7 @@ const normals = new Float32Array([
 const attribute = new THREE.BufferAttribute(pointArr, 3); // 生成顶点坐标的attribute属性
 
 const indexes = new Uint16Array([
-    0, 1, 2, 0, 2, 3,
+    0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7
 ]);
 
 bufferGeometry.index = new THREE.BufferAttribute(indexes, 1);
@@ -172,7 +182,7 @@ mesh = new THREE.Mesh(geometry, material); // 创建网格对象模型
 mesh.position.set(0, 0, 0); // 设置模型在场景中的位置
 scene.add(mesh);
 
-mesh.translateOnAxis(vectories, 30)
+mesh.translateOnAxis(vectories, 50)
 
 scene.add(axesHelper);
 const camera = new THREE.PerspectiveCamera(120, 1, 1, 1000); // 创建透视投影相机
@@ -196,7 +206,7 @@ renderer.setClearColor(0x444444, 0.7); // 设置画布背景色
 document.body.appendChild(renderer.domElement); // 将渲染器添加至html页面中
 
 new OrbitControls(camera, renderer.domElement); // 设置轨道控制器
-// orbitControls.addEventListener('change', () => {
+// orbitControls.addEventListener('change', () => { // 设置了requestAnimationFrame就不需要监听change事件了
 //   renderer.render(scene, camera);
 // });
 
@@ -220,6 +230,9 @@ materialFolder
     right: 110,
   })
   .name('X轴下拉选择对象');
+materialFolder.add(mesh.scale, 'x', 0, 5).name('x轴方向缩放')
+materialFolder.add(mesh.scale, 'y', 0, 5).name('y轴方向缩放')
+materialFolder.add(mesh.scale, 'z', 0, 5).name('z轴方向缩放')
 
 const materialColor = {
   color: 'aqua',
@@ -237,6 +250,43 @@ materialFolder.add(isRotate, 'bool').name('是否旋转');
 const lightFolder = gui.addFolder('光线参数');
 lightFolder.close();
 lightFolder.addColor(pointLight, 'color').name('光源颜色');
+
+console.log('position', mesh.position)
+console.log('rotation', mesh.rotation)
+console.log('quaternion', mesh.quaternion)
+
+const euler = new THREE.Euler(Math.PI / 4, 0, Math.PI / 3)
+pointMesh.rotation.copy(euler)
+
+const rotateVector = new THREE.Vector3(2,1,2)
+const normallize = rotateVector.normalize();
+
+pointMesh.rotateOnAxis(normallize, Math.PI / 6)
+
+const color = new THREE.Color();
+color.setStyle('#f53565')
+color.setHex(0x00ff11)
+color.setRGB(1,2,3)
+pointMaterials.color.set(color)
+
+// 创建平面
+const planeGeometry = new THREE.PlaneGeometry(50,50)
+const planeMaterial = new THREE.MeshLambertMaterial({
+    color: '#f33ff1'
+})
+planeMaterial.side = THREE.DoubleSide;
+const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
+planeMesh.position.set(55, 55, 0)
+
+scene.add(planeMesh)
+
+const planeMesh2 = planeMesh.clone()
+planeMesh2.material.wireframe = true;
+planeMesh2.position.set(-50, -50,-50);
+planeMesh2.rotateX(Math.PI / 3)
+scene.add(planeMesh2)
+
+console.log(planeMesh.geometry, planeMesh.material)
 
 function render() {
   stats.update();
