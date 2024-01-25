@@ -78,6 +78,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min';
 
+import group1 from './house';
+import houseMainMesh from "./house";
+
 // 查看帧率
 const stats = new Stats();
 stats.setMode(0);
@@ -185,12 +188,14 @@ scene.add(mesh);
 mesh.translateOnAxis(vectories, 50)
 
 scene.add(axesHelper);
-const camera = new THREE.PerspectiveCamera(120, 1, 1, 1000); // 创建透视投影相机
-camera.position.set(75, 50, 75); // 设置相机在场景中的位置
+const camera = new THREE.PerspectiveCamera(120, 1, 1, 7000); // 创建透视投影相机
+camera.position.set(500, 500, 3750); // 设置相机在场景中的位置
 camera.lookAt(mesh.position); // 设置相机的拍摄目标
 
 const pointLight = new THREE.PointLight(0xffffff, 1, 0, 0); // 创建点光源
-pointLight.position.set(75, 100, 75); // 设置点光源位置
+pointLight.position.set(75, 50, 1750); // 设置点光源位置
+
+// const pointLight = new THREE.AmbientLight()
 
 const pointHelper = new THREE.PointLightHelper(pointLight, 10); // 设置光源辅助
 scene.add(pointHelper); // 添加至场景
@@ -251,10 +256,6 @@ const lightFolder = gui.addFolder('光线参数');
 lightFolder.close();
 lightFolder.addColor(pointLight, 'color').name('光源颜色');
 
-console.log('position', mesh.position)
-console.log('rotation', mesh.rotation)
-console.log('quaternion', mesh.quaternion)
-
 const euler = new THREE.Euler(Math.PI / 4, 0, Math.PI / 3)
 pointMesh.rotation.copy(euler)
 
@@ -264,7 +265,7 @@ const normallize = rotateVector.normalize();
 pointMesh.rotateOnAxis(normallize, Math.PI / 6)
 
 const color = new THREE.Color();
-color.setStyle('#f53565')
+color.setStyle('#ffffff')
 color.setHex(0x00ff11)
 color.setRGB(1,2,3)
 pointMaterials.color.set(color)
@@ -278,20 +279,41 @@ planeMaterial.side = THREE.DoubleSide;
 const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
 planeMesh.position.set(55, 55, 0)
 
-scene.add(planeMesh)
+// scene.add(planeMesh)
 
 const planeMesh2 = planeMesh.clone()
 planeMesh2.material.wireframe = true;
 planeMesh2.position.set(-50, -50,-50);
 planeMesh2.rotateX(Math.PI / 3)
-scene.add(planeMesh2)
+// scene.add(planeMesh2)
 
-console.log(planeMesh.geometry, planeMesh.material)
+// group
+// const group1 = new THREE.Group();
+const obj3d = new THREE.Object3D();
+
+const pointmesh2 = pointMesh.clone();
+const mesh2 = mesh.clone();
+
+pointmesh2.position.set(-60, -60,-60)
+mesh2.position.set(100, 0, 100)
+
+// group1.add(pointmesh2, mesh2)
+// obj3d.add(pointmesh2, mesh2)
+
+// scene.add(group1)
+// scene.add(obj3d)
+
+scene.add(houseMainMesh);
+
+const gridHelper = new THREE.GridHelper(300, 25, 0x004444, 0x004444)
+scene.add(gridHelper)
+console.log(houseMainMesh.children[0])
 
 function render() {
   stats.update();
-  if (isRotate.bool) {
+    if (isRotate.bool) {
     mesh.rotateY(0.01);
+    houseMainMesh.rotation.x += 0.01;
   }
   renderer.render(scene, camera);
   window.requestAnimationFrame(render);

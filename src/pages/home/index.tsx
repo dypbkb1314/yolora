@@ -8,10 +8,18 @@ import './index.less';
 const Home = (props: any) => {
   const jk = new Array(10).fill(1).map((item, index) => index);
   const [allList] = useState(jk);
+  const [val, setVal] = useState('');
 
   useEffect(() => {
-    console.log('RootStore', props.RootStore.mobile);
-    console.log('UserStore', props.UserStore);
+    console.log(99)
+    var ws = new WebSocket('ws://localhost:3999');
+
+    ws.onopen = () => {
+      console.log('链接11')
+    };
+    ws.onmessage = (res) => {
+      console.log(res)
+    };
   }, []);
 
   const Item = ({ num }: any) => (
@@ -38,6 +46,14 @@ const Home = (props: any) => {
               return <Item num={index} />;
             })}
           </StreamGrid> */}
+          <textarea
+            name=''
+            id=''
+            cols={30}
+            rows={10}
+            onChange={(e) => setVal(e.target.value)}
+          ></textarea>
+          {/* <button onClick={() => ws.send(val)}>send message</button> */}
         </div>
         {/* info */}
       </main>

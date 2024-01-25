@@ -9,6 +9,7 @@ const Error = lazy(() => import('./pages/error'));
 const Login = lazy(() => import('./pages/login'));
 const Three = lazy(() => import('./pages/three'));
 const List = lazy(() => import('./pages/list'));
+const Gsap = lazy(() => import('./pages/gsap'));
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
   {
     path: '/list',
     element: <List />,
+  },
+  {
+    path: '/gsap',
+    element: <Gsap />,
   },
   {
     path: '/account',
