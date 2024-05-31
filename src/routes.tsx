@@ -10,6 +10,7 @@ const Login = lazy(() => import('./pages/login'));
 const Three = lazy(() => import('./pages/three'));
 const List = lazy(() => import('./pages/list'));
 const Gsap = lazy(() => import('./pages/gsap'));
+const WaterFall = lazy(() => import('./pages/waterfall/index'));
 
 const routes = [
   {
@@ -39,6 +40,10 @@ const routes = [
   {
     path: '/gsap',
     element: <Gsap />,
+  },
+  {
+    path: '/waterfall',
+    element: <WaterFall />,
   },
   {
     path: '/account',

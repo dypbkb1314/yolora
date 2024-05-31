@@ -17,7 +17,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   let signOut = (callback: VoidFunction) => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('user'); 
     localStorage.removeItem('token');
     setUser(null);
     callback();
