@@ -185,6 +185,7 @@ export default function NewPage() {
 
   return (
     <div>
+      <p className='text-[14px] border border-[aqua] border-solid'>hello world</p>
       <Upload {...props}>
         <Button icon={<UploadOutlined />}>Click to Upload</Button>
       </Upload>
