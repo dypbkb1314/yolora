@@ -12,6 +12,7 @@ const List = lazy(() => import('./pages/list'));
 const Gsap = lazy(() => import('./pages/gsap'));
 const WaterFall = lazy(() => import('./pages/waterfall/index'));
 const Vitrual = lazy(() => import('./pages/vitrual/water_fall'));
+const Soul = lazy(() => import('./pages/three/soul'));
 
 const routes = [
   {
@@ -49,6 +50,10 @@ const routes = [
   {
     path: '/vitrual',
     element: <Vitrual />,
+  },
+  {
+    path: '/soul',
+    element: <Soul />,
   },
   {
     path: '/account',
